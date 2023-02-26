@@ -9,10 +9,10 @@ class MainActivityViewModel: ViewModel() {
     val state: LiveData<Boolean> get() = stateLiveData
 
     fun initState() {
-        stateLiveData.value = false
+        stateLiveData.value = true
     }
 
     fun logout() {
-        stateLiveData.value = true
+        stateLiveData.value = false
     }
 }

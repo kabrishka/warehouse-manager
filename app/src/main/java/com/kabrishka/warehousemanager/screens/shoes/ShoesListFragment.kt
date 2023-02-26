@@ -36,6 +36,16 @@ class ShoesListFragment: Fragment(R.layout.fragment_shoes_list) {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentShoesListBinding.inflate(inflater, container, false)
+
+        // Create the observer which updates the UI.
+        val shoesObserver = Observer<List<Shoe>> { shoes ->
+            // Update the UI, in this case, a TextView.
+            createList(shoes)
+        }
+
+        // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
+        shoesViewModel.shoes.observe(viewLifecycleOwner, shoesObserver)
+
         return binding.root
     }
 
@@ -54,8 +64,6 @@ class ShoesListFragment: Fragment(R.layout.fragment_shoes_list) {
                     shoesViewModel.addShoes(result)
                 }
             }
-
-        shoesViewModel.shoes.value?.let { createList(it) }
 
         binding.addShoesButton.setOnClickListener {
             findNavController().navigate(R.id.action_shoesListFragment_to_addShoesFragment)
@@ -86,6 +94,7 @@ class ShoesListFragment: Fragment(R.layout.fragment_shoes_list) {
     }
 
     private fun createList(shoes: List<Shoe>) {
+        binding.linearLayout.removeAllViews()
         val lparams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
         for (shoe in shoes) {
             val tv = TextView(requireContext())
