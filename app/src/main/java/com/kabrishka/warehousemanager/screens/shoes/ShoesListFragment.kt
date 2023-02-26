@@ -1,26 +1,29 @@
 package com.kabrishka.warehousemanager.screens.shoes
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
+import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
+import androidx.navigation.fragment.navArgs
 import com.kabrishka.warehousemanager.MainActivityViewModel
 import com.kabrishka.warehousemanager.R
-import com.kabrishka.warehousemanager.adapter.ShoesAdapter
 import com.kabrishka.warehousemanager.databinding.FragmentShoesListBinding
+import com.kabrishka.warehousemanager.model.Shoe
 import com.kabrishka.warehousemanager.model.ShoesViewModel
 
 class ShoesListFragment: Fragment(R.layout.fragment_shoes_list) {
-    private var _binding: FragmentShoesListBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentShoesListBinding
 
-    private val shoesViewModel: ShoesViewModel by activityViewModels()
+    private val shoesViewModel: ShoesViewModel by viewModels()
     private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
-
-    private lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,8 +35,7 @@ class ShoesListFragment: Fragment(R.layout.fragment_shoes_list) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentShoesListBinding.inflate(inflater, container, false)
-
+        binding = FragmentShoesListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -44,8 +46,16 @@ class ShoesListFragment: Fragment(R.layout.fragment_shoes_list) {
             shoesViewModel.initShoes()
         }
 
-        recyclerView = binding.shoesRecyclerView
-        recyclerView.adapter = shoesViewModel.shoes.value?.let { ShoesAdapter(it) }
+        val currentBackStackEntry = findNavController().currentBackStackEntry
+        val savedStateHandle = currentBackStackEntry?.savedStateHandle
+        savedStateHandle?.getLiveData<Shoe>(RESULT_FROM_FRAGMENT)
+            ?.observe(viewLifecycleOwner) { result ->
+                if (result != null) {
+                    shoesViewModel.addShoes(result)
+                }
+            }
+
+        shoesViewModel.shoes.value?.let { createList(it) }
 
         binding.addShoesButton.setOnClickListener {
             findNavController().navigate(R.id.action_shoesListFragment_to_addShoesFragment)
@@ -70,14 +80,22 @@ class ShoesListFragment: Fragment(R.layout.fragment_shoes_list) {
         }
     }
 
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     private fun logout() {
         mainActivityViewModel.logout()
         findNavController().navigate(R.id.action_shoesListFragment_to_signInFragment)
+    }
+
+    private fun createList(shoes: List<Shoe>) {
+        val lparams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+        for (shoe in shoes) {
+            val tv = TextView(requireContext())
+            tv.layoutParams = lparams
+            tv.text = shoe.toString()
+            binding.linearLayout.addView(tv)
+        }
+    }
+
+    companion object {
+        const val RESULT_FROM_FRAGMENT = "RESULT_FROM_FRAGMENT"
     }
 }

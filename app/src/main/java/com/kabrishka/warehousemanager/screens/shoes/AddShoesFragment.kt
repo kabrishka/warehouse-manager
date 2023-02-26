@@ -4,20 +4,19 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.kabrishka.warehousemanager.R
 import com.kabrishka.warehousemanager.databinding.FragmentAddShoesBinding
+import com.kabrishka.warehousemanager.databinding.FragmentShoesListBinding
 import com.kabrishka.warehousemanager.model.Shoe
 import com.kabrishka.warehousemanager.model.ShoesViewModel
 import java.lang.NullPointerException
 
 class AddShoesFragment: Fragment(R.layout.fragment_add_shoes) {
-    private var _binding: FragmentAddShoesBinding? = null
-    private val binding get() = _binding!!
-
-    private val viewModel: ShoesViewModel by activityViewModels()
+    private lateinit var binding: FragmentAddShoesBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,13 +28,8 @@ class AddShoesFragment: Fragment(R.layout.fragment_add_shoes) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentAddShoesBinding.inflate(inflater, container, false)
-
+        binding = FragmentAddShoesBinding.inflate(inflater, container, false)
         return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -61,7 +55,8 @@ class AddShoesFragment: Fragment(R.layout.fragment_add_shoes) {
 
         if (checkErrorInputLayout(shoe)) return
 
-        viewModel.addShoes(shoe)
+        val savedStateHandle = findNavController().previousBackStackEntry?.savedStateHandle
+        savedStateHandle?.set(ShoesListFragment.RESULT_FROM_FRAGMENT, shoe)
         findNavController().popBackStack()
     }
 
@@ -93,10 +88,5 @@ class AddShoesFragment: Fragment(R.layout.fragment_add_shoes) {
 
         Log.d("MyApp","Name: $name Code: $code Brand: $brand Size: $size")
         return Shoe(name, code, brand, size)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

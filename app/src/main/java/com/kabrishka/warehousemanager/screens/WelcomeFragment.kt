@@ -10,19 +10,14 @@ import com.kabrishka.warehousemanager.R
 import com.kabrishka.warehousemanager.databinding.FragmentWelcomeBinding
 
 class WelcomeFragment: Fragment(R.layout.fragment_welcome) {
-    private var _binding: FragmentWelcomeBinding? = null
-    private val binding get() = _binding!!
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private lateinit var binding: FragmentWelcomeBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentWelcomeBinding.inflate(inflater, container, false)
+        binding = FragmentWelcomeBinding.inflate(inflater, container, false)
 
         return binding.root
     }
@@ -33,10 +28,5 @@ class WelcomeFragment: Fragment(R.layout.fragment_welcome) {
         binding.openInstructionsButton.setOnClickListener {
             findNavController().navigate(R.id.action_welcomeFragment_to_instructionFragment)
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

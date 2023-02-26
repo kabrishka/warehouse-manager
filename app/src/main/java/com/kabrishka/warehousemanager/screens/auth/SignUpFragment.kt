@@ -12,15 +12,14 @@ import com.kabrishka.warehousemanager.databinding.FragmentSignUpBinding
 
 class SignUpFragment: Fragment(R.layout.fragment_sign_up) {
 
-    private var _binding: FragmentSignUpBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentSignUpBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentSignUpBinding.inflate(inflater, container, false)
+        binding = FragmentSignUpBinding.inflate(inflater, container, false)
 
         return binding.root
     }
@@ -45,8 +44,4 @@ class SignUpFragment: Fragment(R.layout.fragment_sign_up) {
         return false
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }

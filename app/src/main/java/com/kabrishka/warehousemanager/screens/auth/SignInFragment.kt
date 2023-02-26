@@ -13,16 +13,14 @@ import com.kabrishka.warehousemanager.databinding.FragmentSignInBinding
 import com.kabrishka.warehousemanager.model.Shoe
 
 class SignInFragment: Fragment(R.layout.fragment_sign_in) {
-    private var _binding: FragmentSignInBinding? = null
-    private val binding get() = _binding!!
-
+    private lateinit var binding: FragmentSignInBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentSignInBinding.inflate(inflater, container, false)
+        binding = FragmentSignInBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -50,8 +48,4 @@ class SignInFragment: Fragment(R.layout.fragment_sign_in) {
         return false
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }
