@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">WarehouseManager</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="example_mail_ru">example@mail.ru</string>
+    <string name="enter_your_password">Enter your password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="nice_to_meet_you">Nice to meet you ^.^</string>
+    <string name="instructions">Instructions</string>
+    <string name="add_shoes_using_the_button">Add shoes using the + button</string>
+    <string name="vendor_code">Vendor code:</string>
+    <string name="name">Name:</string>
+    <string name="size">Size:</string>
+    <string name="brand">Brand:</string>
+    <string name="adidas">Adidas</string>
+    <string name="_8uk">8UK</string>
+    <string name="done">Done</string>
+    <string name="log_out">Log Out</string>
+</resources>

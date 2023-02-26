@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/signInFragment">
+
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="com.kabrishka.warehousemanager.screens.auth.SignInFragment"
+        android:label="SignInFragment"
+        tools:layout="@layout/fragment_sign_in">
+        <action
+            android:id="@+id/action_signInFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_signInFragment_to_welcomeFragment"
+            app:destination="@id/welcomeFragment"
+            app:popUpTo="@+id/nav_graph"
+            app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.kabrishka.warehousemanager.screens.auth.SignUpFragment"
+        android:label="SignUpFragment"
+        tools:layout="@layout/fragment_sign_up"/>
+    <fragment
+        android:id="@+id/welcomeFragment"
+        android:name="com.kabrishka.warehousemanager.screens.WelcomeFragment"
+        android:label="WelcomeFragment"
+        tools:layout="@layout/fragment_welcome">
+        <action
+            android:id="@+id/action_welcomeFragment_to_instructionFragment"
+            app:destination="@id/instructionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/instructionFragment"
+        android:name="com.kabrishka.warehousemanager.screens.InstructionFragment"
+        android:label="InstructionFragment"
+        tools:layout="@layout/fragment_instruction">
+        <action
+            android:id="@+id/action_instructionFragment_to_shoesListFragment"
+            app:destination="@id/shoesListFragment"
+            app:popUpTo="@+id/nav_graph"
+            app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/shoesListFragment"
+        android:name="com.kabrishka.warehousemanager.screens.shoes.ShoesListFragment"
+        android:label="ShoesListFragment"
+        tools:layout="@layout/fragment_shoes_list">
+        <action
+            android:id="@+id/action_shoesListFragment_to_addShoesFragment"
+            app:destination="@id/addShoesFragment" />
+        <action
+            android:id="@+id/action_shoesListFragment_to_signInFragment"
+            app:destination="@id/signInFragment"
+            app:popUpTo="@+id/nav_graph"
+            app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/addShoesFragment"
+        android:name="com.kabrishka.warehousemanager.screens.shoes.AddShoesFragment"
+        android:label="AddShoesFragment"
+        tools:layout="@layout/fragment_add_shoes"/>
+</navigation>
