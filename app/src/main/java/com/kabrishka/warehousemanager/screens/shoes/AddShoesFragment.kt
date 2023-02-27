@@ -55,9 +55,8 @@ class AddShoesFragment: Fragment(R.layout.fragment_add_shoes) {
 
         if (checkErrorInputLayout(shoe)) return
 
-        val savedStateHandle = findNavController().previousBackStackEntry?.savedStateHandle
-        savedStateHandle?.set(ShoesListFragment.RESULT_FROM_FRAGMENT, shoe)
-        findNavController().popBackStack()
+        val direction  = AddShoesFragmentDirections.actionAddShoesFragmentToShoesListFragment(shoe)
+        findNavController().navigate(direction)
     }
 
     private fun checkErrorInputLayout(shoe: Shoe): Boolean {

@@ -25,6 +25,8 @@ class ShoesListFragment: Fragment(R.layout.fragment_shoes_list) {
     private val shoesViewModel: ShoesViewModel by viewModels()
     private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
 
+    private val args: ShoesListFragmentArgs by navArgs()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -37,14 +39,14 @@ class ShoesListFragment: Fragment(R.layout.fragment_shoes_list) {
     ): View? {
         binding = FragmentShoesListBinding.inflate(inflater, container, false)
 
-        // Create the observer which updates the UI.
-        val shoesObserver = Observer<List<Shoe>> { shoes ->
-            // Update the UI, in this case, a TextView.
-            createList(shoes)
-        }
-
-        // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
-        shoesViewModel.shoes.observe(viewLifecycleOwner, shoesObserver)
+//        // Create the observer which updates the UI.
+//        val shoesObserver = Observer<List<Shoe>> { shoes ->
+//            // Update the UI
+//            createList(shoes)
+//        }
+//
+//        // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
+//        shoesViewModel.shoes.observe(viewLifecycleOwner, shoesObserver)
 
         return binding.root
     }
@@ -56,14 +58,10 @@ class ShoesListFragment: Fragment(R.layout.fragment_shoes_list) {
             shoesViewModel.initShoes()
         }
 
-        val currentBackStackEntry = findNavController().currentBackStackEntry
-        val savedStateHandle = currentBackStackEntry?.savedStateHandle
-        savedStateHandle?.getLiveData<Shoe>(RESULT_FROM_FRAGMENT)
-            ?.observe(viewLifecycleOwner) { result ->
-                if (result != null) {
-                    shoesViewModel.addShoes(result)
-                }
-            }
+        val shoe = args.shoe
+        if (shoe != null) shoesViewModel.addShoes(shoe)
+
+        shoesViewModel.shoes.value?.let { createList(it) }
 
         binding.addShoesButton.setOnClickListener {
             findNavController().navigate(R.id.action_shoesListFragment_to_addShoesFragment)
@@ -106,5 +104,8 @@ class ShoesListFragment: Fragment(R.layout.fragment_shoes_list) {
 
     companion object {
         const val RESULT_FROM_FRAGMENT = "RESULT_FROM_FRAGMENT"
+
+        const val REQUEST_CODE = "request_code"
+        const val EXTRA_VALUE_CODE = "extra_value_code"
     }
 }

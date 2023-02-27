@@ -57,10 +57,19 @@
             app:destination="@id/signInFragment"
             app:popUpTo="@+id/nav_graph"
             app:popUpToInclusive="true"/>
+        <argument
+            android:name="shoe"
+            app:argType="com.kabrishka.warehousemanager.model.Shoe"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/addShoesFragment"
         android:name="com.kabrishka.warehousemanager.screens.shoes.AddShoesFragment"
         android:label="AddShoesFragment"
-        tools:layout="@layout/fragment_add_shoes"/>
+        tools:layout="@layout/fragment_add_shoes">
+        <action
+            android:id="@+id/action_addShoesFragment_to_shoesListFragment"
+            app:destination="@id/shoesListFragment" />
+    </fragment>
 </navigation>
